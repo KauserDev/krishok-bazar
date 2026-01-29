@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; // useState এবং useEffect যোগ করা হয়েছে
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaArrowUp } from 'react-icons/fa'; // FaArrowUp যোগ করা হয়েছে
-import logoImg from '../assets/logo.png'; 
+
 
 const Footer = () => {
     // ব্যাক টু টপ বাটনের জন্য স্টেট
@@ -48,7 +48,7 @@ const Footer = () => {
                 <div className="flex flex-col gap-5">
                     <Link to="/" className="inline-block transition-transform hover:scale-105 w-fit">
                         <div className="flex items-center justify-center p-1 bg-white border-b-4 border-green-600 shadow-lg rounded-xl">
-                            <img src={logoImg} alt="AgroBulk Logo" className="object-contain w-12 h-12 md:w-16 md:h-16" />
+                            <img src="/Logo.png" alt="AgroBulk Logo" className="object-contain w-12 h-12 md:w-16 md:h-16" />
                         </div>
                     </Link>
                     <p className="text-sm font-medium leading-relaxed text-gray-500">

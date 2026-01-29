@@ -4,7 +4,7 @@ import { useAuth } from '../Context/AuthContext';
 import { IoIosLogOut, IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import { HiOutlineLocationMarker, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi";
 import { BsSearch } from "react-icons/bs";
-import logoImg from '../assets/logo.png';
+
 
 // --- ছোট কম্পোনেন্টগুলো আগে রাখা হয়েছে যাতে এরর না হয় ---
 
@@ -87,7 +87,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2 md:gap-4 shrink-0">
             <Link to="/" className="flex items-center p-1 transition-all shrink-0 hover:opacity-90">
               <div className="flex items-center justify-center p-1 overflow-hidden bg-white border-b-2 border-green-600 rounded-lg shadow-md md:rounded-xl">
-                  <img src={logoImg} alt="AgroBulk Logo" className="object-contain w-10 h-10 md:w-14 md:h-14" />
+                  <img src="/Logo.png" alt="AgroBulk Logo" className="object-contain w-10 h-10 md:w-14 md:h-14" />
               </div>
             </Link>
             <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-white/40 border border-green-200 rounded-lg hover:bg-white/60 transition-colors cursor-pointer group">
@@ -168,7 +168,7 @@ const Navbar = () => {
         <div className={`fixed top-0 left-0 w-[260px] md:w-[350px] h-full bg-[#FBFFDC] shadow-2xl transition-transform duration-300 transform ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="bg-[#79E0EE] text-gray-800 p-5 md:p-6 flex items-center gap-3 border-b border-[#9BEECC]">
             <div className="flex items-center justify-center w-10 h-10 overflow-hidden bg-white rounded-full shadow-sm md:w-12 md:h-12">
-                <img src={logoImg} alt="User Logo" className="object-contain w-full h-full p-1" />
+                <img src="/Logo.png" alt="User Logo" className="object-contain w-full h-full p-1" />
             </div>
             <div>
               <h2 className="text-base font-black md:text-xl">হ্যালো, {user ? user.displayName?.split(' ')[0] : 'লগইন করুন'}</h2>

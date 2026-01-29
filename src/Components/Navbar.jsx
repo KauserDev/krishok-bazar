@@ -2,9 +2,52 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
 import { IoIosLogOut, IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
-import { HiOutlineLocationMarker, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi"; // HiOutlineUser যোগ করা হয়েছে
+import { HiOutlineLocationMarker, HiOutlineShoppingBag, HiOutlineUser } from "react-icons/hi";
 import { BsSearch } from "react-icons/bs";
 import logoImg from '../assets/logo.png';
+
+// --- ছোট কম্পোনেন্টগুলো আগে রাখা হয়েছে যাতে এরর না হয় ---
+
+const Item = ({ label, onClick }) => (
+  <li onClick={onClick} className="px-4 py-2 text-xs md:text-sm font-bold text-gray-700 hover:bg-[#D0F5BE] rounded-md cursor-pointer flex justify-between items-center group transition-all mx-1">
+    {label} <IoIosArrowForward className="text-gray-300 group-hover:text-gray-600" />
+  </li>
+);
+
+const Section = ({ title, color, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="mb-2">
+      <button onClick={() => setIsOpen(!isOpen)} className={`w-full flex items-center justify-between px-4 py-2 text-[10px] md:text-xs font-black uppercase tracking-widest ${color} bg-gray-50 rounded shadow-sm mb-1`}>
+        <span>{title}</span>
+        {isOpen ? <IoIosArrowDown /> : <IoIosArrowForward />}
+      </button>
+      {isOpen && <ul className="ml-4 border-l-2 border-gray-100">{children}</ul>}
+    </div>
+  );
+};
+
+const NavDropdown = ({ label, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div
+      className="relative z-[100]"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <button className="flex items-center gap-1 hover:bg-[#D0F5BE] px-2 py-1 rounded transition-colors whitespace-nowrap">
+        {label} <IoIosArrowDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="absolute top-full left-0 w-52 bg-white shadow-2xl rounded-lg border border-green-100 py-2 mt-1 z-[999] animate-in fade-in slide-in-from-top-1">
+          <ul className="flex flex-col gap-1">{children}</ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- মেইন ন্যাভবার কম্পোনেন্ট ---
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -12,7 +55,7 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
-  const cartCount = 0; 
+  const cartCount = 0;
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -33,7 +76,7 @@ const Navbar = () => {
         {/* ১. Top Notice Bar */}
         <div className="bg-[#FBFFDC] text-[#2d3748] text-[10px] md:text-xs py-2 border-b border-[#D0F5BE] font-medium overflow-hidden">
           <marquee scrollamount="5" className="cursor-pointer">
-            📢 <span className="font-bold text-red-600">সতর্কতা:</span> সরকারি আইন অনুযায়ী কৃষিপণ্যে জালিয়াতি দণ্ডনীয় অপরাধ। আপনার NID আমাদের কাছে সংরক্ষিত। 
+            📢 <span className="font-bold text-red-600">সতর্কতা:</span> সরকারি আইন অনুযায়ী কৃষিপণ্যে জালিয়াতি দণ্ডনীয় অপরাধ। আপনার NID আমাদের কাছে সংরক্ষিত।
             <span className="mx-10 font-bold text-blue-700">🌾 সরাসরি খামারের পণ্য কিনুন।</span>
             <span className="mx-10 font-bold text-green-700">🚛 সারা বাংলাদেশে দ্রুত ডেলিভারি সুবিধা।</span>
           </marquee>
@@ -57,9 +100,9 @@ const Navbar = () => {
           </div>
 
           <form onSubmit={handleSearch} className="flex-1 max-w-2xl flex h-9 md:h-11 rounded-lg overflow-hidden bg-white border-2 border-[#9BEECC] group focus-within:border-[#79E0EE]">
-            <input 
-              type="text" 
-              placeholder="পণ্যের নাম লিখুন..." 
+            <input
+              type="text"
+              placeholder="পণ্যের নাম লিখুন..."
               className="flex-1 w-full px-2 text-xs text-black outline-none md:px-3 md:text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -70,7 +113,6 @@ const Navbar = () => {
           </form>
 
           <div className="flex items-center gap-1.5 md:gap-4 shrink-0">
-            {/* অর্ডার আইকন আগে বসানো হয়েছে */}
             <Link to="/orders" className="relative flex flex-col items-center hover:bg-[#9BEECC] p-1.5 md:p-2 rounded-lg transition-all group">
               <HiOutlineShoppingBag className="text-2xl text-gray-700 transition-transform md:text-3xl group-hover:scale-110" />
               <span className="hidden xs:block text-[8px] md:text-[9px] font-bold text-gray-700 uppercase mt-0.5">অর্ডার</span>
@@ -80,7 +122,6 @@ const Navbar = () => {
             </Link>
 
             {user ? (
-              /* প্রোফাইল আইকন (ড্যাশবোর্ড লেখার বদলে আইকন) */
               <Link to="/profile" className="flex flex-col items-center hover:bg-[#9BEECC] p-1.5 md:p-2 rounded-lg transition-all group">
                 <HiOutlineUser className="text-2xl text-gray-700 transition-transform md:text-3xl group-hover:scale-110" />
                 <span className="hidden xs:block text-[8px] md:text-[9px] font-bold text-gray-700 uppercase mt-0.5">প্রোফাইল</span>
@@ -178,8 +219,8 @@ const Navbar = () => {
             </Section>
 
             {user && (
-              <button 
-                onClick={() => {logOut(); setIsDrawerOpen(false);}} 
+              <button
+                onClick={() => {logOut(); setIsDrawerOpen(false);}}
                 className="flex items-center justify-center px-6 py-2 mx-auto mb-6 text-red-500 transition-all duration-300 border border-red-100 shadow-sm w-fit bg-red-50 rounded-xl hover:bg-red-500 hover:text-white active:scale-95"
                 >
                 <IoIosLogOut className="text-2xl md:text-3xl" />
@@ -194,44 +235,5 @@ const Navbar = () => {
     </>
   );
 };
-
-const Section = ({ title, color, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div className="mb-2">
-      <button onClick={() => setIsOpen(!isOpen)} className={`w-full flex items-center justify-between px-4 py-2 text-[10px] md:text-xs font-black uppercase tracking-widest ${color} bg-gray-50 rounded shadow-sm mb-1`}>
-        <span>{title}</span>
-        {isOpen ? <IoIosArrowDown /> : <IoIosArrowForward />}
-      </button>
-      {isOpen && <ul className="ml-4 border-l-2 border-gray-100">{children}</ul>}
-    </div>
-  );
-};
-
-const NavDropdown = ({ label, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div 
-      className="relative z-[100]" 
-      onMouseEnter={() => setIsOpen(true)} 
-      onMouseLeave={() => setIsOpen(false)}
-    >
-      <button className="flex items-center gap-1 hover:bg-[#D0F5BE] px-2 py-1 rounded transition-colors whitespace-nowrap">
-        {label} <IoIosArrowDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
-      {isOpen && (
-        <div className="absolute top-full left-0 w-52 bg-white shadow-2xl rounded-lg border border-green-100 py-2 mt-1 z-[999] animate-in fade-in slide-in-from-top-1">
-          <ul className="flex flex-col gap-1">{children}</ul>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const Item = ({ label, onClick }) => (
-  <li onClick={onClick} className="px-4 py-2 text-xs md:text-sm font-bold text-gray-700 hover:bg-[#D0F5BE] rounded-md cursor-pointer flex justify-between items-center group transition-all mx-1">
-    {label} <IoIosArrowForward className="text-gray-300 group-hover:text-gray-600" />
-  </li>
-);
 
 export default Navbar;
